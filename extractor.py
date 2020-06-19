@@ -16,6 +16,9 @@ email = re.compile(r'''(
     [a-zA-Z0-9.-]+         # domain name
     (\.[a-zA-Z]{2,4}){1,2} # dot-something
     )''', re.VERBOSE)
+url = re.compile(r'''(((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*)''')
+
+
 
 text = str(pyperclip.paste())
 matches = []
@@ -26,8 +29,9 @@ for groups in phoneRegex.findall(text):
     matches.append(phoneNum)
 for groups in email.findall(text):
     matches.append(groups[0])
+for groups in url.findall(text):
+    matches.append(groups[0])
 
-# TODO: Copy results to the clipboard
 if len(matches) > 0:
     pyperclip.copy('\n'.join(matches))
     print ('Copied to clipboard')
